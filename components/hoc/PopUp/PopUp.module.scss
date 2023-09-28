@@ -1,0 +1,14 @@
+@import "../../../styles/includes/";
+
+.popUp {
+  background-color: transparentize($gray-900, 0.2);
+  flex-direction: column;
+  z-index: $zindex-over;
+  align-items: center;
+  position: fixed;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}

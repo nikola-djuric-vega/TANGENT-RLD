@@ -1,0 +1,96 @@
+@use 'sass:math';
+
+@function rem($size) {
+  $rem-size: math.div($size, $baseFontSize);
+
+  @return $rem-size * 1rem;
+}
+
+@function url-encode($string) {
+  $map: (
+    '%': '%25',
+    '<': '%3C',
+    '>': '%3E',
+    // " ": "%20", // If spaces are also to be encoded, uncomment this
+    '!': '%21',
+    '*': '%2A',
+    "'": '%27',
+    '"': "'",
+    '(': '%28',
+    ')': '%29',
+    ';': '%3B',
+    '@': '%40',
+    '&': '%26',
+    '+': '%2B',
+    '$': '%24',
+    ',': '%2C',
+    '?': '%3F',
+    '#': '%23',
+    '[': '%5B',
+    ']': '%5D',
+  );
+
+  $new: $string;
+
+  @each $search, $replace in $map {
+    $new: str-replace($new, $search, $replace);
+  }
+
+  @return $new;
+}
+
+@function breakpoint-min($name, $breakpoints: $breakpoints) {
+  $min: map-get($breakpoints, $name);
+
+  @return if($min != 0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoints: $breakpoints) {
+  $next: breakpoint-next($name, $breakpoints);
+
+  @return if($next, breakpoint-min($next, $breakpoints) - 0.02px, null);
+}
+
+@function breakpoint-next(
+  $name,
+  $breakpoints: $grid-breakpoints,
+  $breakpoint-names: map-keys($breakpoints)
+) {
+  $n: index($breakpoint-names, $name);
+
+  @return if(
+    $n < length($breakpoint-names),
+    nth($breakpoint-names, $n + 1),
+    null
+  );
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $string;
+}
+
+/**
+ * Format an SVG as a content string
+ * @function css-svg
+ * @param {string} $string - The SVG as a string (un-encoded)
+ * @param {string} $colour - The hex code of the svg icon to be shown
+ */
+
+@function css-svg($string, $color) {
+  $svg-content: str-replace($string, '{{fill-colour}}', $color);
+  $svg-content: str-replace($svg-content, '{{stroke-colour}}', $color);
+  $svg-content: url-encode($svg-content);
+
+  @return url('data:image/svg+xml;charset=utf-8,#{$svg-content}');
+}

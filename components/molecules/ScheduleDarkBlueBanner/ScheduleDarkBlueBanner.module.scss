@@ -1,0 +1,59 @@
+@import '../../../styles/includes';
+
+$mobile-padding-bottom: 132px;
+
+.container {
+  position: relative;
+  padding: $spacing-x3 $spacing-x2 $mobile-padding-bottom $spacing-x7;
+  width: 100%;
+  min-height: 474px;
+  background: $space-gradient;
+
+  .searchInput {
+    margin: 0 0 $spacing-x2;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      margin: $spacing-x2 0 $spacing-x4;
+      max-width: rem(360px);
+    }
+  }
+
+  .bannerTitle {
+    max-width: 872px;
+    margin-bottom: $spacing-x2;
+    color: $white;
+    @include font-size($textH2);
+  }
+
+  .bannerText {
+    max-width: 984px;
+    color: $gray-300;
+    @include font-size($text-body-0);
+    letter-spacing: 0.75px;
+    word-spacing: 2px;
+  }
+
+  .linesBottom {
+    position: absolute;
+    bottom: 132px;
+    right: 0;
+    transform: rotateY(180deg);
+  }
+
+  .linkContainer {
+    a {
+      width: fit-content;
+      min-width: fit-content;
+
+      span {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding: $spacing-x3 $spacing-x2 $mobile-padding-bottom;
+  }
+}

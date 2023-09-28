@@ -1,0 +1,641 @@
+@import '../../../styles/includes/';
+
+.ButtonHoverState {
+  &:hover::after {
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
+    opacity: 1;
+  }
+
+  &::after {
+    transform: translate(-50%, -50%);
+    transition: all 0.35s ease-in-out;
+    background-color: transparent;
+    border-radius: inherit;
+    pointer-events: none;
+    position: absolute;
+    display: block;
+    height: 100%;
+    content: '';
+    width: 100%;
+    opacity: 0;
+    left: 50%;
+    top: 50%;
+  }
+}
+
+.button {
+  border-radius: rem(100px);
+  justify-content: center;
+  text-decoration: none;
+  align-items: center;
+  pointer-events: all;
+  position: relative;
+  display: flex;
+  width: auto;
+
+  @include media-breakpoint-up(md) {
+    min-width: rem(240px);
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.buttonLink {
+  margin: rem(12px) $spacing-x4;
+  justify-content: center;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  flex-direction: row;
+  white-space: nowrap;
+  align-items: center;
+  overflow: hidden;
+  display: flex;
+
+  &[data-layout='rtl'] {
+    flex-direction: row-reverse;
+
+    svg {
+      margin: 0 0 0 $spacing-x1;
+    }
+  }
+
+  svg {
+    margin-right: $spacing-x1;
+    height: rem(16px);
+    width: rem(16px);
+  }
+}
+
+.button[data-appearance='PrimaryButton'] {
+  @extend .ButtonHoverState;
+
+  .buttonLink {
+    @include font-size($text-body-1, 700);
+    margin: rem(12px) $spacing-x4;
+  }
+
+  &[data-color='light'],
+  &[data-color='dark'] {
+    background: $orange;
+    color: $white;
+
+    &::after {
+      border: 1px solid $white;
+    }
+
+    &:disabled {
+      background: $gray-700;
+    }
+  }
+
+  &[data-color='white'] {
+    background: $white;
+    color: $gray-900;
+
+    &::after {
+      border: 1px solid $gray-900;
+    }
+
+    &:disabled {
+      background: $gray-800;
+    }
+  }
+}
+
+.button[data-appearance='SecondaryButton'] {
+  @extend .ButtonHoverState;
+
+  .buttonLink {
+    @include font-size($text-body-2, 700);
+    margin: rem(14px) $spacing-x4;
+  }
+
+  &[data-color='light'],
+  &[data-color='white'] {
+    border: 1px solid $white;
+    color: $white;
+
+    &::after {
+      border: 1px solid $white;
+    }
+
+    &:disabled {
+      border: 1px solid $gray-700;
+      color: $gray-700;
+    }
+  }
+
+  &[data-color='dark'],
+  &[data-color='grey'] {
+    border: 1px solid $gray-900;
+    color: $gray-900;
+
+    &::after {
+      border: 1px solid $gray-900;
+    }
+
+    &:disabled {
+      border: 1px solid $gray-700;
+      color: $gray-700;
+    }
+  }
+
+  &[data-color='dark-blue'] {
+    border: 1px solid $dark-blue;
+    color: $dark-blue;
+
+    &::after {
+      border: 1px solid $dark-blue;
+    }
+
+    &:disabled {
+      border: 1px solid $gray-700;
+      color: $gray-700;
+    }
+  }
+}
+
+.button[data-appearance='TertiaryButton'] {
+  text-decoration: underline;
+  min-width: unset;
+
+  .buttonLink {
+    @include font-size($text-body-1);
+  }
+
+  &[data-color='light'],
+  &[data-color='white'] {
+    color: $white;
+
+    &:hover {
+      color: lighten($white, 10%);
+    }
+  }
+
+  &[data-color='dark'],
+  &[data-color='grey'] {
+    color: $gray-900;
+
+    &:hover {
+      color: transparentize($gray-900, 0.25);
+    }
+  }
+
+  &:disabled {
+    color: $gray-700;
+  }
+}
+
+.button[data-appearance='Download'] {
+  @extend .ButtonHoverState;
+
+  .buttonLink {
+    margin: rem(12px) $spacing-x6 rem(12px) rem(12px);
+    @include font-size($text-body-2, 700);
+  }
+
+  &::before {
+    margin-left: $spacing-x6;
+    height: rem(16px);
+    width: rem(16px);
+    display: block;
+  }
+
+  &[data-color='dark'],
+  &[data-color='grey'] {
+    border: 1px solid $gray-900;
+    color: $gray-900;
+
+    &::after {
+      border: 1px solid $gray-900;
+    }
+
+    &::before {
+      @include css-svg-icon('icon_download', $gray-900);
+    }
+  }
+
+  &[data-color='white'],
+  &[data-color='light'] {
+    border: 1px solid $white;
+    color: $white;
+
+    &::after {
+      border: 1px solid $white;
+    }
+
+    &::before {
+      @include css-svg-icon('icon_download', $white);
+    }
+  }
+
+  &:disabled {
+    color: $gray-700;
+
+    &::before {
+      @include css-svg-icon('icon_download', $gray-700);
+    }
+  }
+}
+
+.button[data-appearance='video'] {
+  @extend .ButtonHoverState;
+
+  .buttonLink {
+    margin: rem(12px) $spacing-x3 rem(12px) $spacing-x1;
+    @include font-size($text-body-2, 700);
+
+    @include media-breakpoint-up(md) {
+      margin: rem(12px) $spacing-x6 rem(12px) rem(12px);
+    }
+  }
+
+  &::before {
+    margin-left: $spacing-x3;
+    height: rem(16px);
+    width: rem(16px);
+    display: block;
+    flex-shrink: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-left: $spacing-x6;
+    }
+  }
+
+  &[data-color='dark'],
+  &[data-color='grey'] {
+    border: 1px solid $gray-900;
+    color: $gray-900;
+
+    &::after {
+      border: 1px solid $gray-900;
+    }
+
+    &::before {
+      @include css-svg-icon('icon_video', $gray-900);
+    }
+  }
+
+  &[data-color='white'],
+  &[data-color='light'] {
+    border: 1px solid $white;
+    color: $white;
+
+    &::after {
+      border: 1px solid $white;
+    }
+
+    &::before {
+      @include css-svg-icon('icon_video', $white);
+    }
+  }
+
+  &:disabled {
+    color: $gray-700;
+
+    &::before {
+      @include css-svg-icon('icon_video', $gray-700);
+    }
+  }
+}
+
+.button[data-appearance='SearchPaginationButton'] {
+  &[data-color='light'] {
+    border-color: $gray-500;
+    border-width: rem(2px);
+    border-style: solid;
+    color: $gray-500;
+
+    &:disabled {
+      border-color: $gray-400;
+      color: $gray-500;
+
+      .button__link {
+        color: $gray-500;
+      }
+    }
+  }
+}
+
+.button[data-appearance='SearchLink'] {
+  &[data-color='light'] {
+    text-decoration: underline;
+    color: $dark-orange;
+
+    .buttonLink {
+      @include font-size($text-body-3);
+      margin-left: 0px;
+      margin-right: 0;
+    }
+
+    &:hover {
+      color: lighten($dark-orange, 10%);
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      color: $gray-500;
+    }
+  }
+
+  &[data-color='dark'] {
+    color: $white;
+    text-decoration: underline;
+
+    &:hover {
+      color: transparentize($white, 0.25);
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      color: $gray-500;
+    }
+  }
+
+  &[data-color='white'] {
+    color: $white;
+    text-decoration: underline;
+
+    &:hover {
+      color: transparentize($white, 0.25);
+    }
+
+    &:disabled {
+      color: $gray-500;
+      border-color: $gray-400;
+
+      &::after {
+        transform: none;
+      }
+    }
+  }
+
+  .search--body {
+    display: inline;
+  }
+}
+
+.button[data-appearance='expandable'] {
+  &[data-color='light'] {
+    border-bottom: rem(1px) solid $gray-400;
+    @include font-size($text-body-3);
+    border-top: rem(1px) solid $gray-400;
+    padding: $spacing-x1 0;
+    color: $gray-900;
+    border-radius: 0;
+
+    &::after {
+      content: '';
+      display: block;
+      background-image: url('../../../public/icons/ico_collapse.svg');
+      position: relative;
+      width: rem(28px);
+      height: rem(28px);
+      margin-left: auto;
+    }
+
+    &:hover {
+      &::after {
+        color: $red;
+      }
+    }
+
+    &[data-is-open='true']::after {
+      background-image: url('../../../public/icons/cta_expand.svg');
+    }
+
+    &:disabled {
+      color: $gray-500;
+
+      &::after {
+        color: $gray-500;
+      }
+    }
+  }
+}
+
+.button[data-appearance='back'] {
+  &::before {
+    @include css-svg-background('right-chevron-small', $orange);
+    transform: rotate(-180deg);
+    position: absolute;
+  }
+
+  &[data-color='light'] {
+    color: $red;
+    text-decoration: underline;
+
+    &:hover {
+      color: lighten($red, 10%);
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      color: $gray-500;
+    }
+  }
+
+  &[data-color='dark'] {
+    color: $gray-900;
+
+    .buttonLink {
+      @include font-size($text-body-3);
+    }
+
+    &:hover {
+      color: lighten($orange, 10%);
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      color: $gray-500;
+    }
+  }
+
+  &[data-color='white'] {
+    color: $white;
+    text-decoration: underline;
+
+    &:hover {
+      color: transparentize($white, 0.25);
+    }
+
+    &:disabled {
+      color: $gray-500;
+      border-color: $gray-400;
+
+      &::after {
+        transform: none;
+      }
+    }
+  }
+
+  &[data-color='light'],
+  &[data-color='dark'],
+  &[data-color='white'] {
+    &::before {
+      display: block;
+      width: rem(17px);
+      height: rem(17px);
+    }
+
+    &:disabled {
+      &::before {
+        @include css-svg-icon('right-chevron-small', $gray-500);
+      }
+    }
+  }
+}
+
+.button[data-appearance='breadcrumb'] {
+  align-items: center;
+  flex-direction: row;
+  min-width: unset;
+  display: flex;
+  height: auto;
+  text-decoration: underline;
+  color: $gray-800;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:hover .buttonLink {
+    color: $gray-800;
+  }
+
+  &:after {
+    @include css-svg-icon('icon_chevron_right', $gray-800);
+    @include font-size($text-breadcrumb);
+    margin: 0 $spacing-x1 $spacing-x1;
+    width: rem(12px);
+    height: rem(12px);
+    display: block;
+  }
+
+  .buttonLink {
+    @include font-size($text-breadcrumb);
+    color: $gray-800;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+.buttonBack {
+  @include font-size($text-body-2);
+  text-decoration: none;
+  color: $gray-900;
+
+  &:hover {
+    text-decoration: undrline;
+    color: $gray-900;
+  }
+
+  .icon {
+    margin-right: rem(10px);
+    margin-bottom: rem(3px);
+    height: rem(12px);
+    width: rem(12px);
+  }
+}
+
+.button[data-appearance='blank'] {
+  border-radius: 0;
+  min-width: auto;
+  height: auto;
+}
+
+.button[data-appearance='form-back'] {
+  .buttonLink {
+    margin-right: rem(24px);
+    margin-left: rem(32px);
+    color: $gray-900;
+  }
+
+  &:hover {
+    &::before {
+      transform: scale(-1) translateX(rem(6px));
+    }
+  }
+
+  &::before {
+    @include button-arrow($gray-900);
+    transform: scale(-1);
+    right: unset;
+    left: 0;
+  }
+}
+
+.button[data-appearance='blueArrow'] {
+  min-width: unset;
+  height: auto;
+  color: $blue;
+
+  .buttonLink {
+    @include font-size($text-body-2);
+    margin-right: $spacing-x1;
+    font-weight: 300;
+    margin-left: 0;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &::after {
+    @include css-svg-background('icon_arrow_long', $blue);
+    position: relative;
+    height: rem(20px);
+    width: rem(20px);
+    display: block;
+  }
+}
+
+.button[data-appearance='facebookArrow'],
+.button[data-appearance='twitterArrow'] {
+  border-style: solid;
+  border-width: rem(2px);
+
+  &:hover {
+    color: $red;
+    border-image-source: $red-gradient;
+    background-image: linear-gradient(white, white), $red-gradient;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border-image-slice: 0;
+
+    &::after {
+      @include button-arrow($red);
+      transform: translateX(rem(6px));
+    }
+  }
+
+  span {
+    font-size: $button-size-regular;
+  }
+}
+
+.button[data-appearance='facebookArrow'] {
+  border-color: $facebook-blue;
+  color: $facebook-blue;
+
+  &::after {
+    @include button-arrow($facebook-blue);
+  }
+}
+
+.button[data-appearance='twitterArrow'] {
+  color: $twitter-blue;
+  border-color: $twitter-blue;
+
+  &::after {
+    @include button-arrow($twitter-blue);
+  }
+}

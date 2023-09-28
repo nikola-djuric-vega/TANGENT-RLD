@@ -1,0 +1,244 @@
+@import '../../../styles/includes/';
+
+.addressSearchBar {
+  justify-content: space-between;
+  border: 1px solid $gray-600;
+  border-radius: rem(100px);
+  background-color: $white;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  width: 100%;
+
+  .lensButton {
+    height: rem(48px);
+    margin: rem(4px);
+    min-width: unset;
+    width: rem(48px);
+    flex: 0 0 auto;
+
+    svg {
+      height: rem(16px);
+      width: rem(16px);
+    }
+  }
+
+  input {
+    @include font-size($text-body-2);
+    margin: $spacing-x2 $spacing-x3;
+
+    width: 100%;
+    padding: 0;
+    border: 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:placeholder {
+      color: $gray-700;
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid $gray-500;
+    outline-offset: rem(4px);
+  }
+}
+
+.addressPopUpModal {
+  @include border-radius($border-radius-mobile, true, true, false, false);
+  max-height: calc(100% - $spacing-x8);
+  background-color: $white;
+  justify-self: flex-end;
+  flex-direction: column;
+  position: relative;
+  margin: auto 0 0 0;
+  overflow: scroll;
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    @include border-radius($border-radius-desktop);
+    padding-top: $spacing-x10;
+    max-height: rem(680px);
+    max-width: rem(648px);
+    overflow: hidden;
+    margin: auto 0;
+  }
+}
+
+.modalControls {
+  background-color: $white;
+  padding: $spacing-x3;
+  position: sticky;
+  display: flex;
+  width: 100%;
+  z-index: 2;
+  left: 0;
+  top: 0;
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+  }
+}
+
+.closeModal {
+  position: relative;
+  margin-left: auto;
+
+  svg {
+    height: rem(18px);
+    width: rem(18px);
+
+    @include media-breakpoint-up(lg) {
+      height: rem(24px);
+      width: rem(24px);
+    }
+  }
+}
+
+.inputField {
+  padding: $spacing-x2 $spacing-x3;
+  border: rem(1px) solid $gray-600;
+  @include border-radius(8px);
+  background-color: $white;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  color: $dark-blue;
+  height: rem(56px);
+  display: flex;
+
+  input {
+    @include font-size($text-body-2);
+    margin: 0 $spacing-x1;
+    border: none;
+    width: 100%;
+
+    &:focus {
+      outline: rem(1px) solid $gray-800;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-left: $spacing-x1;
+      margin-right: 0px;
+    }
+  }
+}
+
+.inputField {
+  margin: 0 $spacing-x2 $spacing-x3 $spacing-x2;
+
+  @include media-breakpoint-up(lg) {
+    margin: 0 $spacing-x6 $spacing-x3 $spacing-x6;
+  }
+
+  & > button {
+    &:last-of-type {
+      background-color: $gray-600;
+      border-radius: 100%;
+    }
+  }
+}
+
+.loader {
+  padding: 0 0 $spacing-x3 $spacing-x1;
+  border-bottom: solid 1px $gray-600;
+  font-size: $baseFontSize;
+  margin: 0 $spacing-x2;
+  align-items: flex-end;
+  flex-direction: row;
+  color: $gray-900;
+  margin-bottom: 0;
+  display: flex;
+
+  @include media-breakpoint-up(lg) {
+    margin: 0 $spacing-x6;
+  }
+
+  span {
+    animation: dotPulse 1.5s infinite linear;
+    margin-left: rem(2px);
+    animation-delay: 0.25s;
+    display: inherit;
+
+    &::before {
+      animation: dotPulse 1.5s infinite linear;
+      animation-delay: 0s;
+    }
+
+    &::after {
+      animation: dotPulse 1.5s infinite linear;
+      animation-delay: 0.5s;
+    }
+
+    &::after,
+    &::before {
+      position: relative;
+      display: block;
+      content: '.';
+    }
+  }
+}
+
+@keyframes dotPulse {
+  0% {
+    color: transparentize($gray-900, 1);
+  }
+  50% {
+    color: transparentize($gray-900, 0);
+  }
+  100% {
+    color: transparentize($gray-900, 1);
+  }
+}
+
+.errorMessage {
+  padding: 0 0 $spacing-x3 $spacing-x1;
+  border-bottom: solid 1px $gray-600;
+  font-size: $baseFontSize;
+  margin: 0 $spacing-x2;
+  color: $red;
+
+  @include media-breakpoint-up(lg) {
+    margin: 0 $spacing-x6;
+  }
+}
+
+.closeButton {
+  > svg {
+    height: rem(14px);
+    width: rem(14px);
+
+    @include media-breakpoint-up(lg) {
+      height: rem(16px);
+      width: rem(16px);
+    }
+  }
+
+  &[data-is-menu-open='true'] {
+    pointer-events: none;
+  }
+
+  @include media-breakpoint-down(sm) {
+    position: absolute;
+    right: $spacing-x1;
+  }
+}
+
+.searchButton {
+  > svg {
+    height: rem(18px);
+    width: rem(18px);
+
+    @include media-breakpoint-up(lg) {
+      height: rem(20px);
+      width: rem(20px);
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    margin-left: -$spacing-x1;
+  }
+}

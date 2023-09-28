@@ -1,0 +1,45 @@
+@import '../../../styles/includes';
+
+.container {
+  background: $space-gradient;
+  color: $white;
+  padding: rem(94px) $spacing-x2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include media-breakpoint-up(md) {
+    padding: $spacing-x10 0;
+    margin: $spacing-x4;
+    border-radius: $border-radius-desktop;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $spacing-x3;
+  font-weight: 700;
+
+  @include media-breakpoint-up(md) {
+    padding: 0;
+    margin-bottom: $spacing-x3;
+  }
+}
+
+.searchInput {
+  width: 100%;
+  max-width: rem(360px);
+}
+
+.button {
+  margin-top: $spacing-x8;
+
+  @include media-breakpoint-up(md) {
+    margin-top: $spacing-x5;
+  }
+
+  > span {
+    font-size: rem(18px) !important;
+    margin: rem(14px) $spacing-x3 !important;
+  }
+}

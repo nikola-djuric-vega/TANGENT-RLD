@@ -1,0 +1,148 @@
+# Build a Node.js React app
+
+trigger:
+  - develop
+  - main
+  - release/*
+
+variables:
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+    poolName: 'ukpn-stest-ap'
+    azureSubscription: 'f7955090-aebc-4ce2-8ea2-e64eee3c967d' # ukpn-stest-svc-conn
+    blobScheduleUrl: '$(DEV_AZURE_BLOB_SCHEDULE_URL)'    
+    appServiceName: 'asrlldtap01'
+    deployToSlot: false
+    slotName: 'atrlldtap01'
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/release') }}:
+    poolName: 'ukpn-suat-ap'
+    azureSubscription: 'db273942-55cc-402b-a7ac-35e47813a0fc'
+    blobScheduleUrl: '$(UAT_AZURE_BLOB_SCHEDULE_URL)'
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+    poolName: 'ukpn-sprod-ap'
+    azureSubscription: '55a18ff2-e34a-462a-9097-cb599ce98a75'
+    blobScheduleUrl: '$(PROD_AZURE_BLOB_SCHEDULE_URL)'
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+        pool: $(poolName)
+        steps:
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish build artifact'
+            inputs:
+              PathtoPublish: '$(Build.Repository.LocalPath)'
+              ArtifactName: 'SourceCode'
+              publishLocation: 'Container'
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: '14.x'
+          - task: Cache@2
+            displayName: 'Cache .next/cache'
+            inputs:
+              key: next | $(Agent.OS)
+              path: '$(System.DefaultWorkingDirectory)/.next/cache'
+            enabled: false
+          - task: CmdLine@2
+            displayName: 'Build Site'
+            env: 
+              NEXT_PUBLIC_GTM_ID: $(ukpnGtmId)
+              NEXT_PUBLIC_BLOB_SCHEDULE_URL: $(blobScheduleUrl)
+              NEXT_PUBLIC_POSTCODE_URL: $(DEV_AZURE_BLOB_POSTCODE_URL)
+              NEXT_PUBLIC_MICROSITE_DATA_URL: $(DEV_AZURE_BLOB_SITE_DATA_URL)
+              SITE_URL: $(DEV_SITE_URL)
+              NEXT_PUBLIC_RUM_KEY: $(RumKeyValue)
+            inputs:
+              script: |
+                npm install
+                npm run build --if-present
+          - task: CopyFiles@2
+            inputs:
+              Contents: |
+                out/**/* 
+              TargetFolder: 'build'
+              OverWrite: true
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish build artifact'
+            inputs:
+              PathToPublish: '$(System.DefaultWorkingDirectory)/out'
+              ArtifactName: 'RldBuild'
+              publishLocation: 'Container'
+
+#Disabling temporarily
+#      - job: Tests
+#        displayName: Unit Tests        
+#        pool: $(poolName)
+#        steps:
+#          - task: NodeTool@0
+#            displayName: 'Install Node.js'
+#            inputs:
+#              versionSpec: '14.x'
+#          - task: CmdLine@2
+#            displayName: 'Run Tests'
+#            inputs:
+#              script: |
+#                npm install
+#                npm run test     
+
+      - job: TSC
+        displayName: TSC
+        condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'))
+        pool: $(poolName)
+        steps: 
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish build artifact'
+            inputs:
+              PathtoPublish: '$(Build.Repository.LocalPath)'
+              ArtifactName: 'SourceCode'
+              publishLocation: 'Container'
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+             versionSpec: '14.x'
+          - task: CmdLine@2
+            displayName: 'Run TSC'
+            inputs:
+              script: |
+                npm install
+                npm run tsc --if-present
+
+#Disabling due to Storybook                
+#      - job: Audit
+#        displayName: NPM Audit
+#        pool: $(poolName)
+#        steps:
+#          - task: NodeTool@0
+#            displayName: 'Install Node.js'
+#            inputs:
+#              versionSpec: '14.x'
+#          - task: CmdLine@2
+#            displayName: 'Run NPM Audit'
+#            inputs:
+#              script: |
+#                npm install
+#                npm audit --only=prod
+      
+#  - stage: Deploy
+#    jobs:
+#      - job: Deploy
+#        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+#        pool: $(poolName)
+#        steps:
+#          - task: AzureCLI@2
+#            displayName: 'Upload to $web'
+#            inputs:
+#              azureSubscription: ${{variables.azureSubscription}}
+#              scriptType: bash
+#              scriptLocation: inlineScript
+#              workingDirectory: '$(System.DefaultWorkingDirectory)/_ukpn-rld-site-gen/'
+#              inlineScript: 'az storage blob upload-batch --source ''RldBuild'' --destination ''$web'' --overwrite --connection-string ''DefaultEndpointsProtocol=https;AccountName=sarlatein01;AccountKey=IJt6fXfD3frpta7Ep7/wUgaaxY6Nd6ouydPF6po5H2Ab+Yzi9qU309/FPX4e+NdIq+0DdhpQ5qK8+AStA5tfmw==;EndpointSuffix=core.windows.net'''
+#          - task: AzureCLI@2
+#            displayName: 'Purge CDN'
+#            inputs:
+#                azureSubscription: ${{variables.azureSubscription}}
+#                scriptType: bash
+#                scriptLocation: inlineScript
+#                inlineScript: 'az cdn endpoint purge -g rsgpatein01 -n cerlatein01 --profile-name cpdfatein01 --content-paths "/*"'

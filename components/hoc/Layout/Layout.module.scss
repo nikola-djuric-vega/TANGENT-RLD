@@ -1,0 +1,16 @@
+@import '../../../styles/includes';
+
+.layout {
+  @include container-max-width;
+  flex-direction: column;
+  margin: 0 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+.main {
+  padding-top: $ukpn-header;
+  position: relative;
+  display: block;
+  z-index: 3;
+}

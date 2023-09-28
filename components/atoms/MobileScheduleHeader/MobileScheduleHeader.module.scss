@@ -1,0 +1,17 @@
+@import '../../../styles/includes/';
+
+.headerContainer {
+  max-width: 100%;
+}
+
+.headerTitle {
+  margin: 0;
+  @include font-size($text-body-1, 700);
+  color: $gray-800;
+}
+
+.headerSubTitle {
+  margin-bottom: 0;
+  @include font-size($text-body-1);
+  color: $gray-800;
+}

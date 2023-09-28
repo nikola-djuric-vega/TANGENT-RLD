@@ -1,0 +1,163 @@
+$font: 'Brown', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+  'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Segoe UI Symbol';
+
+$baseFontSize: 16px;
+$button-size-small: 16px;
+$button-size-regular: 18px;
+
+$powerCutH1: (
+  null: (
+    36px,
+    40px,
+  ),
+  lg: (
+    64px,
+    70px,
+  ),
+);
+
+$textH1: (
+  null: (
+    40px,
+    50px,
+  ),
+  lg: (
+    56px,
+    68px,
+  ),
+);
+
+$textH2: (
+  null: (
+    32px,
+    42px,
+  ),
+  lg: (
+    48px,
+    60px,
+  ),
+);
+
+$textH3: (
+  null: (
+    28px,
+    38px,
+  ),
+  lg: (
+    40px,
+    50px,
+  ),
+);
+
+$textH4: (
+  null: (
+    24px,
+    34px,
+  ),
+  lg: (
+    32px,
+    42px,
+  ),
+);
+
+$textH5: (
+  null: (
+    22px,
+    32px,
+  ),
+  lg: (
+    28px,
+    38px,
+  ),
+);
+
+$textH6: (
+  null: (
+    20px,
+    30px,
+  ),
+  lg: (
+    24px,
+    34px,
+  ),
+);
+
+$textH7: (
+  null: (
+    18px,
+    28px,
+  ),
+  lg: (
+    22px,
+    32px,
+  ),
+);
+
+$textH8: (
+  null: (
+    16px,
+    24px,
+  ),
+  lg: (
+    18px,
+    28px,
+  ),
+);
+
+$textH9: (
+  null: (
+    14px,
+    24px,
+  ),
+  lg: (
+    16px,
+    26px,
+  ),
+);
+
+$text-body-0: (
+  null: (
+    16px,
+    26px,
+  ),
+  lg: (
+    18px,
+    28px,
+  ),
+);
+
+$text-body-1: (
+  null: (
+    18px,
+    28px,
+  ),
+);
+
+$text-body-2: (
+  null: (
+    16px,
+    26px,
+  ),
+);
+
+$text-body-3: (
+  null: (
+    14px,
+    24px,
+  ),
+);
+
+$text-body-4: (
+  null: (
+    12px,
+    22px,
+  ),
+);
+
+$text-breadcrumb: (
+  null: (
+    14px,
+    24px,
+  ),
+);

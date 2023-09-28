@@ -1,0 +1,36 @@
+// all spacing is set to an increment of 8px
+$spacing-x1: rem(8px);
+$spacing-x2: rem(16px);
+$spacing-x3: rem(24px);
+$spacing-x4: rem(32px);
+$spacing-x5: rem(40px);
+$spacing-x6: rem(48px);
+$spacing-x7: rem(56px);
+$spacing-x8: rem(64px);
+$spacing-x9: rem(72px);
+$spacing-x10: rem(80px);
+
+$grid-gutter-sm: 10px;
+$grid-gutter-md: 18px;
+$grid-gutter-lg: 24px;
+
+$grid-padding-sm: 16px;
+$grid-padding-md: 35px;
+$grid-padding-lg: 60px;
+
+$header-height: 66px;
+$header-height-large: 90px;
+$header-collapsed-header: 92px;
+$postcode-height--header: $header-height-large - 1;
+$postcode-height: $header-height;
+$preview-bar-height: 131px;
+$preview-bar-button-size: 34px;
+
+$power-cut-header-height-sm: 66px;
+$power-cut-header-height-md: 90px;
+
+$power-cut-preview-bar-height: 114px;
+$power-cut-panel-map-overlay: 21.5vh;
+
+$ukpn-header: 69px;
+$ukpn-header-large: 131px;

@@ -1,0 +1,46 @@
+@import '../../../styles/includes/';
+
+.container {
+  width: 295px;
+  $blue-dark: $gray-800;
+  $border-gray: $gray-500;
+  margin: $spacing-x3 0;
+
+  .cardTitle {
+    padding-bottom: $spacing-x2;
+    margin-bottom: 0;
+    @include font-size($text-body-0);
+    color: $blue-dark;
+  }
+
+  > div.cardWrapper {
+    padding: 0 $spacing-x2;
+    border-radius: 8px;
+    border: 1px solid $border-gray;
+    background-color: $bg-grey;
+
+    p.cardTime {
+      width: 100%;
+      margin: 0;
+      padding: $spacing-x2 0;
+      text-align: center;
+      @include font-size($text-body-0, 700);
+      color: $blue-dark;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid $border-gray;
+      }
+    }
+
+    &.confirmed {
+      border: 1px solid $border-gray;
+      background-color: $light-red;
+
+      .cardTime {
+        &:not(:last-of-type) {
+          border-bottom: 1px solid $blue-dark;
+        }
+      }
+    }
+  }
+}

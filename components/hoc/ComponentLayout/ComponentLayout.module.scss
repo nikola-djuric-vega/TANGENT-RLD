@@ -1,0 +1,27 @@
+@import '../../../styles/includes/';
+
+.componentLayout {
+  margin: rem(12px) auto $spacing-x5 auto;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  display: flex;
+
+  @include media-breakpoint-up(md) {
+    margin-top: $spacing-x4;
+  }
+
+  &[data-remove-bottom-margin='true'] {
+    margin-bottom: 0;
+  }
+}
+
+.inner {
+  @include site-grid;
+  margin: 0 auto;
+  width: 100%;
+
+  &[data-remove-grid-padding='true'] {
+    padding: 0;
+  }
+}

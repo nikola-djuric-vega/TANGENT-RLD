@@ -1,0 +1,28 @@
+@import '../../../styles/includes/';
+
+.richText {
+  width: 100%;
+  & > * {
+    margin-bottom: $spacing-x2;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &[data-text-size='text-body-1'] {
+    @include font-size($text-body-1);
+  }
+
+  &[data-text-size='text-body-2'] {
+    @include font-size($text-body-2);
+  }
+
+  &[data-text-size='text-body-3'] {
+    @include font-size($text-body-3);
+  }
+
+  &[data-text-size='text-body-4'] {
+    @include font-size($text-body-4);
+  }
+}

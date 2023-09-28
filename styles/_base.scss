@@ -1,0 +1,191 @@
+@font-face {
+  font-family: 'Brown';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/BrownLLWeb-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Brown';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/BrownLLWeb-Regular.woff2') format('woff2');
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: $font;
+  font-weight: 400;
+  box-sizing: border-box;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: $baseFontSize;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: $font;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+
+h4,
+h5,
+h6,
+.text-body-1,
+.text-body-2,
+.text-body-3,
+.text-body-4 {
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+hr,
+pre,
+menu,
+figure,
+blockquote {
+  margin-top: 0;
+  margin-bottom: $spacing-x3;
+}
+
+.grecaptcha-badge {
+  bottom: rem(100px) !important;
+  z-index: 101;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 40px;
+}
+
+ol {
+  list-style: decimal;
+  padding-left: 40px;
+}
+
+hr {
+  margin: 0;
+}
+
+a {
+  color: $red;
+
+  &:hover {
+    color: $orange;
+  }
+}
+
+h1,
+.h1 {
+  @include font-size($textH1);
+}
+
+h2,
+.h2 {
+  @include font-size($textH2);
+}
+
+h3,
+.h3 {
+  @include font-size($textH3);
+}
+
+h4,
+.h4 {
+  @include font-size($textH4);
+}
+
+h5,
+.h5 {
+  @include font-size($textH5);
+}
+
+h6,
+.h6 {
+  @include font-size($textH6);
+}
+
+.h7 {
+  @include font-size($textH7);
+}
+
+.h8 {
+  @include font-size($textH8);
+}
+
+.h9 {
+  @include font-size($textH9);
+}
+
+.text-body-1 {
+  @include font-size($text-body-1);
+}
+
+.text-body-2 {
+  @include font-size($text-body-2);
+}
+
+.text-body-3 {
+  @include font-size($text-body-3);
+}
+
+.text-body-4 {
+  @include font-size($text-body-4);
+}
+
+.intro__icon-box {
+  @include font-size($text-body-2);
+  border: rem(1px) solid $gray-300;
+  background-color: transparentize($red, 0.95);
+  margin-bottom: $spacing-x4;
+  padding: $spacing-x2 $spacing-x2 $spacing-x2 $spacing-x10;
+  position: relative;
+  min-height: $spacing-x10;
+
+  &:after {
+    @include css-svg-icon('icon_warning', $red);
+    position: absolute;
+    top: $spacing-x2;
+    left: $spacing-x2;
+    height: rem(48px);
+    width: rem(48px);
+  }
+
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  @include media-breakpoint-up(md) {
+    @include font-size($text-body-3);
+  }
+}

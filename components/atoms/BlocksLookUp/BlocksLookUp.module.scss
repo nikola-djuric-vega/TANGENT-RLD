@@ -1,0 +1,138 @@
+@import '../../../styles/includes/';
+
+.addressSearchBar {
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+}
+
+.addressPopUpModal {
+  @include border-radius($border-radius-mobile, true, true, false, false);
+  max-height: calc(100% - $spacing-x8);
+  background-color: $white;
+  justify-self: flex-end;
+  flex-direction: column;
+  position: relative;
+  margin: auto 0 0 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    @include border-radius($border-radius-desktop);
+    padding-top: $spacing-x10;
+    max-height: rem(680px);
+    max-width: rem(648px);
+    overflow: hidden;
+    margin: auto 0;
+  }
+}
+
+.modalControls {
+  background-color: $white;
+  padding: $spacing-x3;
+  position: sticky;
+  display: flex;
+  width: 100%;
+  z-index: 2;
+  left: 0;
+  top: 0;
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+  }
+}
+
+.modalControlsHeader {
+  color: $black;
+  padding: 0;
+  margin: 0;
+  margin-left: calc(50%);
+  transform: translateX(-50%);
+
+  @include media-breakpoint-up(md) {
+    font-size: rem(18px);
+  }
+}
+
+.blockListPopUp {
+  overflow-y: scroll;
+}
+
+.blockListContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  .blockContainer {
+    margin: 0 $spacing-x2;
+    border-bottom: 1px solid $gray-500;
+
+    &:first-child {
+      margin-top: rem(2px);
+    }
+
+    .blockLink {
+      text-decoration: none;
+      padding: $spacing-x3 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &:focus-visible {
+        border-radius: 0;
+      }
+
+      @include media-breakpoint-up(md) {
+        font-size: rem(18px);
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      margin: 0 $spacing-x6;
+    }
+  }
+}
+
+.blockChevronRight {
+  width: 20px;
+  height: 20px;
+  @include media-breakpoint-up(md) {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.closeModal {
+  position: relative;
+  margin-left: auto;
+
+  svg {
+    height: rem(16px);
+    width: rem(16px);
+
+    @include media-breakpoint-up(lg) {
+      height: rem(24px);
+      width: rem(24px);
+    }
+  }
+}
+
+.mainButton {
+  margin-top: $spacing-x8;
+
+  &:focus-visible {
+    outline: 1px solid $gray-500;
+    outline-offset: rem(4px);
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-top: $spacing-x5;
+  }
+
+  > span {
+    font-size: rem(18px) !important;
+    margin: rem(14px) $spacing-x3 !important;
+  }
+}

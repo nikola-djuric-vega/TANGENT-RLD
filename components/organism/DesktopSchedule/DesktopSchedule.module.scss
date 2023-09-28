@@ -1,0 +1,29 @@
+@import '../../../styles/includes/';
+
+$schedule-top-margin: rem(-100px);
+
+.containerFullW {
+  padding: 0 $spacing-x2;
+}
+
+.containerMain {
+  max-width: rem(1320px);
+  position: relative;
+  top: $schedule-top-margin;
+  margin: 0 auto;
+  padding: $spacing-x4 $spacing-x7 0 $spacing-x3;
+  background-color: $white;
+  border-radius: $spacing-x3;
+  box-shadow: 0px 2px 10px rgba(49, 53, 72, 0.1);
+
+  .footnote {
+    display: block;
+    padding: $spacing-x3 0 $spacing-x3 $spacing-x6;
+    @include font-size($text-body-4);
+    color: $gray-800;
+  }
+}
+
+.scheduleContainer {
+  display: flex;
+}

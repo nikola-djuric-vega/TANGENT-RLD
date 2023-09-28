@@ -1,0 +1,25 @@
+@import '../../../styles/includes/';
+
+$sidebar-center: -7px;
+.sidebarContainer {
+  padding-top: rem(64px);
+  border-right: 1px solid $gray-300;
+}
+
+.gridContainer {
+  display: grid;
+
+  .gridElement {
+    position: relative;
+    padding-right: $spacing-x1;
+    top: $sidebar-center;
+    height: rem(42px);
+    @include font-size($text-body-4);
+    color: $gray-800;
+    text-align: right;
+
+    &:is(:last-of-type) {
+      height: 0;
+    }
+  }
+}

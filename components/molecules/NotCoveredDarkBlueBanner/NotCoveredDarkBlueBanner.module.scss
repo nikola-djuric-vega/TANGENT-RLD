@@ -1,0 +1,39 @@
+@import '../../../styles/includes';
+
+.notCoveredWrapper {
+  $nav-mobile: 69px;
+  $nav-desktop: 97px;
+  min-height: calc(100vh - $nav-mobile);
+  background: $bg-blue;
+
+  @include media-breakpoint-up(md) {
+    min-height: calc(100vh - $nav-desktop);
+  }
+}
+
+.notCoveredContainer {
+  width: 100%;
+  padding: $spacing-x3 $spacing-x2 rem(132px);
+  background: $space-gradient;
+
+  @include media-breakpoint-up(md) {
+    padding: $spacing-x5 $spacing-x8 rem(140px);
+  }
+}
+
+.notCoveredSearchInput {
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    max-width: rem(360px);
+  }
+}
+
+.notCoveredBox {
+  padding: 0 $spacing-x2;
+  margin-top: rem(-100px);
+
+  @include media-breakpoint-up(md) {
+    padding: 0 $spacing-x8;
+  }
+}

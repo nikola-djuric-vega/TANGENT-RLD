@@ -1,0 +1,693 @@
+@mixin font-size($fs-map, $font-weigth: 400, $fs-breakpoints: $breakpoints) {
+  font-weight: $font-weigth;
+  font-family: $font;
+
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      @include make-font-size($fs-font-size);
+    } @else {
+      // If $fs-font-size is a key that exists in
+      // $fs-breakpoints, use the value
+      @if map-has-key($fs-breakpoints, $fs-breakpoint) {
+        $fs-breakpoint: map-get($fs-breakpoints, $fs-breakpoint);
+      }
+      @media screen and (min-width: $fs-breakpoint) {
+        @include make-font-size($fs-font-size);
+      }
+    }
+  }
+}
+
+@mixin make-font-size($fs-font-size) {
+  // If $fs-font-size is a list, include
+  // both font-size and line-height
+  @if type-of($fs-font-size) == 'list' {
+    font-size: rem(nth($fs-font-size, 1));
+    @if (length($fs-font-size) > 1) {
+      line-height: rem(nth($fs-font-size, 2));
+    }
+  } @else {
+    font-size: rem($fs-font-size);
+  }
+}
+
+/**
+ * Add dropshadows to a specific DOM element
+ * @mixin shadowbox
+ * @param {string} $glow-color - The color of the dropshadow
+ * @param {number} $opacity - What alhpa/transparency value to give to the dropshadow
+ * @param {boolean} $inset - Whether to sit the dropshadow inset or outset
+ * @param {string} $shadow-size - The size of the dropshadow
+ * @param {boolean} $no-dropshadow - Whether or not to apply the glow effect (vs a flat border)
+ */
+@mixin shadowbox(
+  $glow-color,
+  $opacity,
+  $inset: false,
+  $shadow-size: 2px,
+  $no-dropshadow: false
+) {
+  $use-inset: null;
+  $use-dropshadow: $shadow-size;
+
+  @if $inset {
+    $use-inset: inset;
+  }
+
+  @if $no-dropshadow {
+    $use-dropshadow: 0px;
+  }
+
+  box-shadow: $use-inset 0px 0px $use-dropshadow $shadow-size
+    rgba($glow-color, $opacity);
+}
+
+/**
+ * Format an SVG as a content string
+ * @mixin css-svg-icon
+ * @param {string} $icon-name - The string key name of the icon to show (based on the SASS map 'svg-icons-map')
+ */
+@mixin css-svg-icon($icon-name, $color: '#000000') {
+  content: css-svg(map-get($svg-icons-map, $icon-name), $color);
+}
+
+/**
+ * Format an SVG as a content string
+ * @mixin css-svg-icon
+ * @param {string} $icon-name - The string key name of the icon to show (based on the SASS map 'svg-icons-map')
+ */
+@mixin css-svg-background($icon-name, $color: '#000000') {
+  content: ' ';
+  background-size: contain;
+  background: transparent css-svg(map-get($svg-icons-map, $icon-name), $color)
+    no-repeat center center;
+}
+
+/**
+ * Generate an icon with 2 circle rings surrounding it
+ * @mixin icon-with-circles
+ * @param {string} $iconName - The name of the icon to load
+ * @param {number} $height - The height of the icon
+ * @param {number} $width - The width of the icon
+ * @param {string} [$borderColor] - The hex code for the 2 rings surrouding the icon
+ * @param {number} [$innerBorderSize] - The width of the inner ring surrounding the icon
+ * @param {number} [$outerBorderSize] - The width of the outer ring surrounding the icon
+ * @param {number} [$ringsMargin] - The gap between the icon and the inner ring AND the inner ring and the outer ring
+ */
+@mixin icon-with-circles(
+  $iconName,
+  $height,
+  $width,
+  $borderColor: $gray-300,
+  $innerBorderSize: 3,
+  $outerBorderSize: 1,
+  $ringsMargin: 16
+) {
+  $iconWithCirclesInnerSize: calc(100% + #{$ringsMargin * 2}px);
+  $iconWithCirclesOuterSize: calc(100% + #{$ringsMargin * 4}px);
+  $iconWithCirclesInnerOffset: calc(0 - #{$ringsMargin}px);
+  $iconWithCirclesOuterOffset: calc(0 - #{$ringsMargin * 2}px);
+
+  &::before {
+    border-radius: 50%;
+    border: #{$innerBorderSize}px solid #{$borderColor};
+    content: '';
+    display: block;
+    height: $iconWithCirclesInnerSize;
+    left: $iconWithCirclesInnerOffset;
+    position: absolute;
+    top: $iconWithCirclesInnerOffset;
+    width: $iconWithCirclesInnerSize;
+  }
+
+  &::after {
+    border-radius: 50%;
+    border: #{$outerBorderSize}px solid #{$borderColor};
+    content: '';
+    display: block;
+    height: $iconWithCirclesOuterSize;
+    left: $iconWithCirclesOuterOffset;
+    position: absolute;
+    top: $iconWithCirclesOuterOffset;
+    width: $iconWithCirclesOuterSize;
+  }
+
+  .icon-with-circles__icon {
+    display: inline-block;
+    font-size: 0;
+    height: 100%;
+    width: 100%;
+
+    &::before {
+      @include css-svg-icon($iconName, $orange);
+    }
+  }
+}
+
+@mixin triangle($width, $dir, $color) {
+  @if $dir == up {
+    width: 0;
+    height: 0;
+    border-left: $width/2 solid transparent;
+    border-right: $width/2 solid transparent;
+    border-bottom: $width/2 solid $color;
+  } @else if $dir == down {
+    width: 0;
+    height: 0;
+    border-left: $width/2 solid transparent;
+    border-right: $width/2 solid transparent;
+    border-top: $width/2 solid $color;
+  } @else if $dir == right {
+    width: 0;
+    height: 0;
+    border-top: $width solid transparent;
+    border-bottom: $width solid transparent;
+    border-left: $width solid $color;
+  } @else if $dir == left {
+    width: 0;
+    height: 0;
+    border-top: $width solid transparent;
+    border-bottom: $width solid transparent;
+    border-right: $width solid $color;
+  }
+}
+
+@mixin keyframes($animation-name) {
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@mixin button-solid-gradient(
+  $color,
+  $background-left,
+  $background-right,
+  $background-solid
+) {
+  position: relative;
+  background-image: linear-gradient(
+    90deg,
+    $background-left 50%,
+    $background-right 90%
+  );
+  color: $color;
+  font-size: rem(18px);
+  border: 0;
+  border-radius: rem(44px);
+  line-height: 2.15;
+  padding-left: rem(22px);
+  padding-right: calc(#{rem(22px)} + #{rem(18px)});
+  font-weight: 400;
+  cursor: pointer;
+  margin: auto;
+  width: 100%;
+  box-shadow: 0 0 0 rem(32px) rgba($color, 0.5);
+
+  &:hover {
+    color: $color;
+    background-color: $background-solid;
+
+    &::after {
+      right: 0.75rem;
+      // override and make arrow red
+      content: str-replace(
+        url("data:image/svg+xml;charset=utf8,%3Csvg width='20' height='15' viewBox='0 0 20 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='#{$color}' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 0l7 7-7 7M19 7H1'/%3E%3C/g%3E%3C/svg%3E"),
+        '#',
+        '%23'
+      ) !important;
+      max-width: rem(20px);
+    }
+  }
+
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: $background-solid;
+  }
+
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: $background-solid;
+    // Remove the gradient for the pressed/active state
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: $background-solid;
+    }
+  }
+
+  &.disabled,
+  &:disabled {
+    opacity: 1;
+    background-image: linear-gradient(
+      90deg,
+      $background-left 50%,
+      $background-right 90%
+    );
+    color: rgba($white, 0.48);
+
+    &:focus,
+    &.focus {
+      background-color: $background-solid;
+    }
+
+    &:hover {
+      background-color: $background-solid;
+    }
+  }
+
+  &::after {
+    content: str-replace(
+      url("data:image/svg+xml;charset=utf8,%3Csvg width='20' height='15' viewBox='0 0 20 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='#{$color}' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 0l7 7-7 7M19 7H1'/%3E%3C/g%3E%3C/svg%3E"),
+      '#',
+      '%23'
+    );
+    max-width: rem(20px);
+    position: absolute;
+    right: 1.125rem;
+    color: $color;
+    transition: 0.33s right ease;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin button-outline-variant(
+  $color,
+  $color-hover: $color,
+  $active-background: $color,
+  $active-border: $color
+) {
+  background-color: transparent;
+  background-image: none;
+  border-color: $color;
+
+  &:hover {
+    color: $color-hover;
+    background-color: $active-background;
+    border-color: $active-border;
+  }
+
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 rem(32px) rgba($color, 0.5);
+  }
+
+  &.disabled,
+  &:disabled {
+    color: $color;
+    background-color: transparent;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    color: $active-background;
+    background-color: $active-background;
+    border-color: $active-border;
+
+    &:focus {
+      box-shadow: 0 0 0 rem(32px) rgba($color, 0.5);
+    }
+  }
+}
+
+@mixin button-outline-gradient(
+  $color,
+  $border-left,
+  $border-right,
+  $border-solid,
+  $content
+) {
+  $background: $color;
+  $background-left: $border-left;
+  $background-right: $border-right;
+
+  @include button-outline-variant($color);
+  position: relative;
+  background-image: linear-gradient(
+    90deg,
+    $background-left 50%,
+    $background-right 90%
+  );
+  color: $color;
+  font-size: rem(18px);
+  border: 0;
+  border-radius: rem(44px);
+  width: 100%;
+  cursor: pointer;
+  margin: auto;
+  line-height: 2.15;
+  padding-left: rem(22px);
+  padding-right: calc(#{rem(22px)} + #{rem(18px)});
+  z-index: $zindex-bottom;
+  font-weight: 400;
+  box-shadow: inset 0 rem(1px) 0 rgba($white, 0.15),
+    0 rem(1px) rem(1px) rgba($black, 0.075);
+
+  &:hover {
+    color: $color;
+    background-color: $background;
+
+    &::after {
+      right: 0.75rem;
+      // override and make arrow red
+      content: str-replace(
+        url("data:image/svg+xml;charset=utf8,%3Csvg width='20' height='15' viewBox='0 0 20 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='#{$color}' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 0l7 7-7 7M19 7H1'/%3E%3C/g%3E%3C/svg%3E"),
+        '#',
+        '%23'
+      ) !important;
+      max-width: rem(20px);
+    }
+  }
+
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: $border-left;
+  }
+
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-image: none;
+    background: $border-left;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: $border-left;
+    }
+  }
+
+  &.disabled,
+  &:disabled {
+    opacity: 1;
+    color: rgba($color, 0.48);
+
+    &:focus,
+    &.focus {
+      background-color: $background;
+    }
+
+    &:hover {
+      background-color: $background;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    background: theme-color(#fff);
+    top: rem(2px);
+    left: rem(2px);
+    bottom: rem(2px);
+    right: rem(2px);
+    border-radius: rem(50px);
+    z-index: $zindex-under;
+  }
+
+  &::after {
+    content: str-replace(
+      url("data:image/svg+xml;charset=utf8,%3Csvg width='20' height='15' viewBox='0 0 20 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='#{$color}' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 0l7 7-7 7M19 7H1'/%3E%3C/g%3E%3C/svg%3E"),
+      '#',
+      '%23'
+    );
+    max-width: 20px;
+    position: absolute;
+    right: 1.125rem;
+    transition: 0.33s right ease;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-down($name, $breakpoints: $breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-between($lower, $upper, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($lower, $breakpoints);
+  $max: breakpoint-max($upper, $breakpoints);
+
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include media-breakpoint-up($lower, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include media-breakpoint-down($upper, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+@mixin button-arrow($color) {
+  content: '';
+  background-image: str-replace(
+    url("data:image/svg+xml;charset=utf8,%3Csvg width='20' height='15' viewBox='0 0 20 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='#{$color}' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 0l7 7-7 7M19 7H1'/%3E%3C/g%3E%3C/svg%3E"),
+    '#',
+    '%23'
+  );
+  background-size: cover;
+  height: rem(14px);
+  width: rem(20px);
+  position: absolute;
+  right: rem(24px);
+  top: 50%;
+  margin-top: -7px;
+  transform: translateX(rem(0px));
+  transition: transform 0.33s ease;
+}
+
+@mixin make-large-header-ring-icon($size: 32px) {
+  $icon-size: rem($size);
+  $icon-ring-size: $icon-size * 1.55;
+  $icon-ring-offset: ($icon-size * 0.275) * -1;
+  width: $icon-size;
+  height: $icon-size;
+
+  &::before,
+  &::after {
+    width: $icon-ring-size;
+    height: $icon-ring-size;
+    top: $icon-ring-offset;
+    left: $icon-ring-offset;
+  }
+}
+
+@mixin link-opacity($color) {
+  color: $color;
+  text-decoration: underline;
+
+  &:hover {
+    color: transparentize($color, 0.25);
+  }
+
+  &:disabled,
+  &[disabled] {
+    color: $gray-500;
+  }
+}
+
+@mixin power-cut-list-buttons {
+  @include button-reset;
+  border: solid 1px $gray-400;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
+  color: $gray-900;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 0.3125rem;
+  padding: 0.3125rem 0.875rem;
+
+  &.current {
+    background-color: $orange;
+    border-color: $orange;
+    color: $white;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@mixin site-grid-column-gap {
+  column-gap: $grid-gutter-sm;
+
+  @include media-breakpoint-up(md) {
+    column-gap: $grid-gutter-md;
+  }
+
+  @include media-breakpoint-up(lg) {
+    column-gap: $grid-gutter-lg;
+  }
+}
+
+@mixin site-grid-row-gap {
+  row-gap: $grid-gutter-sm;
+
+  @include media-breakpoint-up(md) {
+    row-gap: $grid-gutter-md;
+  }
+
+  @include media-breakpoint-up(lg) {
+    row-gap: $grid-gutter-lg;
+  }
+}
+
+@mixin site-grid-padding {
+  padding-right: $grid-padding-sm;
+  padding-left: $grid-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    padding-right: $grid-padding-md;
+    padding-left: $grid-padding-md;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-right: $grid-padding-lg;
+    padding-left: $grid-padding-lg;
+  }
+}
+
+@mixin container-max-width() {
+  width: 100%;
+  max-width: 1440px;
+  align-self: center;
+}
+
+@mixin content-max-width() {
+  width: 100%;
+  max-width: 1140px;
+  align-self: center;
+}
+
+@mixin site-grid($cols: 12) {
+  @include site-grid-column-gap;
+  @include site-grid-padding;
+
+  display: grid;
+  grid-template-columns: repeat($cols, [col-start] 1fr);
+  align-self: center;
+}
+
+@mixin form-field-error {
+  border: solid 2px $red;
+  border-width: rem(2px);
+}
+
+@mixin rotate-animation($name, $finalRotation) {
+  @keyframes #{$name} {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(#{$finalRotation});
+    }
+  }
+}
+
+@mixin slide-in-from-right($in: 'slideIn', $out: 'slideOut') {
+  @keyframes #{$in} {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes #{$out} {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@mixin opacity-anim($in: 'opacityOn', $out: 'opacityOff') {
+  @keyframes #{$in} {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes #{$out} {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin bounce-anim {
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      height: rem(32px);
+    }
+    40% {
+      height: rem(48px);
+    }
+    60% {
+      height: rem(44px);
+    }
+  }
+}
+
+@function make-boder-radius($should, $value) {
+  @return if($should, $value, 0);
+}
+
+@mixin border-radius($value, $tl: true, $tr: true, $br: true, $bl: true) {
+  border-radius: make-boder-radius($tl, $value) make-boder-radius($tr, $value)
+    make-boder-radius($br, $value) make-boder-radius($bl, $value);
+}
+
+@mixin animate($name, $duration, $ease, $fill-mode: forwards, $iteration: 1) {
+  animation-timing-function: $ease;
+  animation-fill-mode: $fill-mode;
+  animation-iteration-count: $iteration;
+  animation-name: $name;
+  animation-duration: $duration;
+}

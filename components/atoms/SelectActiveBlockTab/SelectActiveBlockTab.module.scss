@@ -1,0 +1,43 @@
+@import '../../../styles/includes/';
+
+.container {
+  display: flex;
+  gap: $spacing-x2;
+
+  &.mobileContainer {
+    padding-bottom: $spacing-x3;
+    justify-content: center;
+  }
+  &.desktopContainer {
+    padding: 0 0 $spacing-x4 $spacing-x6;
+  }
+
+  .blockBtn {
+    padding: $spacing-x2 $spacing-x3;
+    background-color: $white;
+    border: 1px solid $gray-300;
+    border-radius: rem(100px);
+    @include font-size($text-body-2);
+    color: $gray-900;
+    transition: all 150ms;
+
+    &:hover:not(&.active) {
+      border-color: $gray-700;
+      cursor: pointer;
+    }
+
+    &.mobileBtn {
+      width: 56px;
+      height: 56px;
+      padding: 0;
+    }
+    &.active {
+      color: $white;
+      background-color: $dark-blue;
+
+      &:hover {
+        pointer-events: none;
+      }
+    }
+  }
+}
